@@ -8,19 +8,19 @@
 <title>J.A.R.V.I.S. — Assistant personnel</title>
 <style>
 :root {
-  --cyan: #55eaff;
-  --blue: #167bff;
-  --bg: #050b16;
-  --panel: #0b1728;
-  --muted: #91a9c5;
+  --cyan:#55eaff;
+  --blue:#167bff;
+  --bg:#050b16;
+  --panel:#0b1728;
+  --muted:#91a9c5;
 }
-* { box-sizing: border-box; }
+* { box-sizing:border-box; }
 body {
-  margin: 0; min-height: 100vh;
-  background: radial-gradient(ellipse at top,#102d4b,var(--bg) 65%);
-  color: #e9f7ff; font-family: Arial,sans-serif;
+  margin:0; min-height:100vh;
+  background:radial-gradient(ellipse at top,#102d4b,var(--bg) 65%);
+  color:#e9f7ff; font-family:Arial,sans-serif;
 }
-main { width: min(760px,100%); margin: auto; padding: 22px 16px; }
+main { width:min(760px,100%); margin:auto; padding:22px 16px; }
 header { display:flex; justify-content:space-between; align-items:center; gap:12px; }
 .eyebrow { color:var(--cyan); letter-spacing:3px; font-size:.75rem; }
 h1 { font-size:1.45rem; letter-spacing:2px; margin:7px 0; }
@@ -50,20 +50,19 @@ h2 { font-size:1rem; letter-spacing:1px; margin:20px 0 10px; }
   border-radius:14px; padding:16px; margin-top:14px;
 }
 .controls { display:flex; gap:10px; flex-wrap:wrap; }
-button,input {
-  font:inherit; border-radius:10px; padding:13px;
-}
+button,input { font:inherit; border-radius:10px; padding:13px; }
 button {
   flex:1; min-width:125px; background:#10253c;
   color:#e9f7ff; border:1px solid #315674; cursor:pointer;
 }
 button.primary { background:linear-gradient(135deg,#0879c9,#1454bd); border-color:var(--cyan); }
+button:disabled { opacity:.55; cursor:wait; }
 button:active { transform:scale(.98); }
 input {
   width:100%; background:#050d19; color:white;
   border:1px solid #315674; margin:8px 0;
 }
-#reply { line-height:1.6; min-height:45px; overflow-wrap:anywhere; }
+#reply { line-height:1.6; min-height:45px; overflow-wrap:anywhere; white-space:pre-wrap; }
 #heard { color:var(--muted); font-size:.9rem; }
 .note { font-size:.82rem; color:#a9c0d5; line-height:1.5; }
 .grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
@@ -84,7 +83,7 @@ footer { text-align:center; color:#6385a3; font-size:.75rem; padding:20px 0; }
     <h1>J.A.R.V.I.S.</h1>
     <div class="status" id="status">● SYSTÈME EN LIGNE</div>
   </div>
-  <div class="eyebrow">V. 1.0</div>
+  <div class="eyebrow">V. 2.0</div>
 </header>
 
 <div class="orb-wrap"><div class="orb"><div class="core"></div></div></div>
@@ -92,132 +91,190 @@ footer { text-align:center; color:#6385a3; font-size:.75rem; padding:20px 0; }
 
 <section class="panel">
   <h2>INTERFACE VOCALE</h2>
-  <div id="reply" aria-live="polite">Bonjour. Je suis JARVIS, ton assistant personnel. Que puis-je faire pour toi ?</div>
-  <p id="heard">Appuie sur le microphone pour me parler.</p>
+  <div id="reply" aria-live="polite">Bonjour ! Je suis JARVIS. Pose-moi une question.</div>
+  <p id="heard">Appuie sur le microphone ou écris-moi un message.</p>
   <div class="controls">
     <button class="primary" id="talk">🎙️ Parler à JARVIS</button>
     <button id="repeat">🔊 Répéter</button>
     <button id="stop">⏹ Arrêter la voix</button>
   </div>
-  <p class="note">La reconnaissance vocale dépend du navigateur. Pour le moment, parle en appuyant sur le bouton : l'écoute permanente par le mot « JARVIS » n'est pas encore disponible.</p>
+  <p class="note">Le microphone écoute lorsque tu appuies sur le bouton. L'écoute permanente du mot « Dis JARVIS » n'est pas encore activée.</p>
 </section>
 
 <section class="panel">
-  <h2>CONVERSATION</h2>
+  <h2>CONVERSATION AVEC L'IA</h2>
   <form id="chat">
-    <input id="message" autocomplete="off" placeholder="Écris un message à JARVIS…" aria-label="Ton message">
-    <button class="primary" type="submit">Envoyer</button>
+    <input id="message" autocomplete="off" placeholder="Écris un message à JARVIS…" aria-label="Ton message" maxlength="4000">
+    <button class="primary" id="send" type="submit">Envoyer</button>
   </form>
+  <p class="note">Les réponses sont générées par Gemini via ton serveur Cloudflare. Une connexion Internet est nécessaire.</p>
 </section>
 
 <section class="panel">
   <h2>MODULES</h2>
   <div class="grid">
-    <div class="tile"><strong>📱 iPhone</strong><span>Interface accessible sur ton téléphone</span></div>
-    <div class="tile"><strong>💻 PC Windows</strong><span id="pc">En attente de configuration</span></div>
-    <div class="tile"><strong>🎥 OBS Studio</strong><span id="obs">En attente de connexion</span></div>
-    <div class="tile"><strong>⛏️ Minecraft</strong><span id="mc">En attente de connexion</span></div>
+    <div class="tile"><strong>📱 iPhone</strong><span>Site accessible dans le navigateur</span></div>
+    <div class="tile"><strong>💻 PC Windows</strong><span id="pc">Interface disponible, contrôle non connecté</span></div>
+    <div class="tile"><strong>🎥 OBS Studio</strong><span id="obs">Connexion à configurer</span></div>
+    <div class="tile"><strong>⛏️ Minecraft</strong><span id="mc">Connexion à configurer</span></div>
   </div>
 </section>
 
 <section class="panel">
-  <h2>COMMANDES DE DÉMONSTRATION</h2>
+  <h2>COMMANDES RAPIDES</h2>
   <div class="controls">
-    <button data-command="heure">🕒 Quelle heure est-il ?</button>
-    <button data-command="bonjour">👋 Présente-toi</button>
-    <button data-command="modules">⚙️ État des modules</button>
+    <button data-command="Quelle heure est-il ?">🕒 Quelle heure est-il ?</button>
+    <button data-command="Présente-toi">👋 Présente-toi</button>
+    <button data-command="Quels modules sont connectés ?">⚙️ État des modules</button>
   </div>
-  <p class="note">Les commandes PC, OBS et Minecraft ne sont pas encore connectées. Aucun contrôle réel de ces applications n'est effectué par cette version.</p>
+  <p class="note">Le contrôle réel de Windows, OBS et Minecraft n'est pas encore activé.</p>
 </section>
-<footer>J.A.R.V.I.S. — Projet personnel de Tom · Prototype local dans le navigateur</footer>
+<footer>J.A.R.V.I.S. — Assistant personnel</footer>
 </main>
 
 <script>
-const reply = document.getElementById('reply');
-const heard = document.getElementById('heard');
-const statusText = document.getElementById('status');
+const WORKER_URL = "https://jarvis-ai.tomdarph.workers.dev/";
+
+const reply = document.getElementById("reply");
+const heard = document.getElementById("heard");
+const statusText = document.getElementById("status");
+const talkButton = document.getElementById("talk");
+const sendButton = document.getElementById("send");
+const messageInput = document.getElementById("message");
+
 let lastResponse = reply.textContent;
+let busy = false;
+let recognition = null;
 
 function speak(text) {
   lastResponse = text;
   reply.textContent = text;
-  if (!('speechSynthesis' in window)) {
+
+  if (!("speechSynthesis" in window)) {
     heard.textContent = "La synthèse vocale n'est pas disponible dans ce navigateur.";
     return;
   }
+
   window.speechSynthesis.cancel();
   const utterance = new SpeechSynthesisUtterance(text);
-  utterance.lang = 'fr-FR';
+  utterance.lang = "fr-FR";
   utterance.rate = 1;
   window.speechSynthesis.speak(utterance);
 }
 
-function answer(message) {
-  const text = message.toLowerCase().trim();
-  if (!text) return;
-  heard.textContent = "Tu as dit : " + message;
+async function answer(message) {
+  message = String(message || "").trim();
+  if (!message || busy) return;
 
-  if (text.includes('heure')) {
-    speak("Il est " + new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'}) + ".");
-  } else if (text.includes('bonjour') || text.includes('salut')) {
-    speak("Bonjour Tom ! Je suis JARVIS, ton assistant personnel en cours de développement.");
-  } else if (text.includes('qui es-tu') || text.includes('présente-toi')) {
-    speak("Je suis JARVIS, un prototype d'assistant personnel. Nous allons construire mes fonctionnalités étape par étape.");
-  } else if (text.includes('module') || text.includes('état du pc')) {
-    speak("L'interface est en ligne. Le PC, OBS et Minecraft ne sont pas encore connectés.");
-  } else if (text.includes('obs')) {
-    speak("Le module OBS est prévu, mais il faut encore installer une connexion sécurisée sur ton ordinateur.");
-  } else if (text.includes('minecraft')) {
-    speak("Le module Minecraft est prévu. Je ne peux pas encore contrôler le jeu.");
-  } else if (text.includes('pc') || text.includes('ordinateur')) {
-    speak("Le contrôle de ton PC nécessite une configuration sur Windows. Cette page ne peut pas le commander toute seule.");
-  } else if (text.includes('merci')) {
-    speak("Avec plaisir, Tom.");
-  } else {
-    speak("J'ai bien reçu ton message. Pour le moment, je fonctionne avec des commandes de démonstration, pas avec une intelligence artificielle connectée.");
+  busy = true;
+  talkButton.disabled = true;
+  sendButton.disabled = true;
+  heard.textContent = "Message envoyé : " + message;
+  statusText.textContent = "● JARVIS RÉFLÉCHIT…";
+  reply.textContent = "Je réfléchis à ta question…";
+
+  try {
+    const response = await fetch(WORKER_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.details || data.error || "Erreur HTTP " + response.status);
+    }
+
+    if (!data.reply) {
+      throw new Error("Le serveur n'a pas renvoyé de réponse.");
+    }
+
+    speak(data.reply);
+    heard.textContent = "Réponse reçue de Gemini.";
+  } catch (error) {
+    console.error("Erreur JARVIS :", error);
+    const details = error.message || "Erreur inconnue";
+
+    reply.textContent = "Je n'arrive pas à contacter mon intelligence artificielle.";
+    heard.textContent = "Erreur : " + details +
+      " Vérifie le déploiement Cloudflare, la clé Gemini et la connexion.";
+    lastResponse = reply.textContent;
+  } finally {
+    busy = false;
+    talkButton.disabled = false;
+    sendButton.disabled = false;
+    statusText.textContent = "● SYSTÈME EN LIGNE";
   }
 }
 
-document.getElementById('chat').addEventListener('submit', function(event) {
+document.getElementById("chat").addEventListener("submit", function(event) {
   event.preventDefault();
-  const input = document.getElementById('message');
-  answer(input.value);
-  input.value = '';
+  const message = messageInput.value.trim();
+  if (!message) return;
+  messageInput.value = "";
+  answer(message);
 });
 
-document.getElementById('talk').addEventListener('click', function() {
+talkButton.addEventListener("click", function() {
   const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
   if (!Recognition) {
-    speak("La reconnaissance vocale n'est pas prise en charge ici. Essaie Safari ou utilise le champ de texte.");
+    speak("La reconnaissance vocale n'est pas prise en charge par ce navigateur. Tu peux écrire ton message dans la conversation.");
     return;
   }
-  const recognition = new Recognition();
-  recognition.lang = 'fr-FR';
+
+  if (recognition) {
+    try { recognition.abort(); } catch (_) {}
+  }
+
+  recognition = new Recognition();
+  recognition.lang = "fr-FR";
   recognition.continuous = false;
   recognition.interimResults = false;
+
   statusText.textContent = "● J'ÉCOUTE…";
   heard.textContent = "Je t'écoute. Parle maintenant.";
-  recognition.onresult = event => answer(event.results[0][0].transcript);
-  recognition.onerror = () => { heard.textContent = "Micro indisponible ou autorisation refusée. Vérifie les réglages du navigateur."; };
-  recognition.onend = () => { statusText.textContent = "● SYSTÈME EN LIGNE"; };
-  try { recognition.start(); }
-  catch (error) { heard.textContent = "Impossible de démarrer le micro. Réessaie dans quelques secondes."; }
+
+  recognition.onresult = function(event) {
+    const transcript = event.results[0][0].transcript;
+    messageInput.value = transcript;
+    answer(transcript);
+  };
+
+  recognition.onerror = function(event) {
+    heard.textContent = "Erreur du microphone : " + event.error +
+      ". Vérifie les autorisations du navigateur.";
+  };
+
+  recognition.onend = function() {
+    if (!busy) statusText.textContent = "● SYSTÈME EN LIGNE";
+  };
+
+  try {
+    recognition.start();
+  } catch (error) {
+    heard.textContent = "Impossible de démarrer le micro. Réessaie.";
+    statusText.textContent = "● SYSTÈME EN LIGNE";
+  }
 });
 
-document.getElementById('repeat').addEventListener('click', () => speak(lastResponse));
-document.getElementById('stop').addEventListener('click', () => {
-  if ('speechSynthesis' in window) window.speechSynthesis.cancel();
-  heard.textContent = "Voix arrêtée.";
+document.getElementById("repeat").addEventListener("click", function() {
+  speak(lastResponse);
 });
 
-document.querySelectorAll('[data-command]').forEach(button => {
-  button.addEventListener('click', () => {
-    const commands = {
-      heure: "Quelle heure est-il ?",
-      bonjour: "Présente-toi",
-      modules: "État des modules"
-    };
-    answer(commands[button.dataset.command]);
+document.getElementById("stop").addEventListener("click", function() {
+  if ("speechSynthesis" in window) window.speechSynthesis.cancel();
+  if (recognition) {
+    try { recognition.abort(); } catch (_) {}
+  }
+  heard.textContent = "Voix et écoute arrêtées.";
+  statusText.textContent = "● SYSTÈME EN LIGNE";
+});
+
+document.querySelectorAll("[data-command]").forEach(function(button) {
+  button.addEventListener("click", function() {
+    answer(button.dataset.command);
   });
 });
 </script>
